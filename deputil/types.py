@@ -26,20 +26,11 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-__all__ = ("BASE_URL", "api")
+from __future__ import annotations
 
-__productname__ = "deputil"
-__version__ = "0.1.0rc1"
-__description__ = "A lightweight dependency manager for Python."
-__url__ = "https://github.com/parafoxia/deputil"
-__docs__ = "https://deputil.readthedocs.io"
-__author__ = "Ethan Henderson"
-__author_email__ = "ethan.henderson.1998@gmail.com"
-__license__ = "BSD 3-Clause 'New' or 'Revised' License"
-__bugtracker__ = "https://github.com/parafoxia/deputil/issues"
-__ci__ = "https://github.com/parafoxia/deputil/actions"
-__changelog__ = "https://github.com/parafoxia/deputil/releases"
+import typing as t
 
-BASE_URL = "https://pypi.org/pypi/{}/json"
+if t.TYPE_CHECKING:
+    from deputil.api.deps import Dependencies
 
-from . import api
+    DepsT = list[Dependencies]

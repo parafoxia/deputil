@@ -26,20 +26,52 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-__all__ = ("BASE_URL", "api")
+from __future__ import annotations
 
-__productname__ = "deputil"
-__version__ = "0.1.0rc1"
-__description__ = "A lightweight dependency manager for Python."
-__url__ = "https://github.com/parafoxia/deputil"
-__docs__ = "https://deputil.readthedocs.io"
-__author__ = "Ethan Henderson"
-__author_email__ = "ethan.henderson.1998@gmail.com"
-__license__ = "BSD 3-Clause 'New' or 'Revised' License"
-__bugtracker__ = "https://github.com/parafoxia/deputil/issues"
-__ci__ = "https://github.com/parafoxia/deputil/actions"
-__changelog__ = "https://github.com/parafoxia/deputil/releases"
+import sys
+import typing as t
 
-BASE_URL = "https://pypi.org/pypi/{}/json"
+from deputil.api.check import Checker
+from deputil.api.scan import Scanner
 
-from . import api
+if t.TYPE_CHECKING:
+    from deputil.types import DepsT
+
+
+def fmt(code: str, errors: DepsT) -> str:
+    return "\n".join(
+        f"  * {e.name}: "
+        f"\33[1m\33[{code}m{e.bounds}\33[0m "
+        f"=> \33[1m\33[32m{e.latest}\33[0m"
+        for e in errors
+    )
+
+
+if __name__ == "__main__":
+    scanner = Scanner()
+    paths = scanner.find_files("requirements")
+    deps = scanner.extract_dependencies(paths)
+    print(
+        f"\33[1m\33[34mChecking {len(deps):,} dependencies "
+        f"(from {len(paths):,} files)...\33[0m"
+    )
+
+    checker = Checker()
+    errors = checker.find_errors(deps)
+
+    if not errors[0] and not errors[1]:
+        print(f"\33[1m\33[32mAll dependencies are up to date!\33[0m")
+        sys.exit(0)
+
+    if errors[0]:
+        print("\n\33[1m\33[31mRequired:\33[0m")
+        print(fmt("31", errors[0]))
+
+    if errors[1]:
+        print("\n\33[1m\33[33mOptional:\33[0m")
+        print(fmt("33", errors[1]))
+
+    r = f"\33[1m\33[31m{len(errors[0]):,} required update(s)\33[0m" if errors[0] else ""
+    o = f"\33[1m\33[33m{len(errors[1]):,} optional update(s)\33[0m" if errors[1] else ""
+    print("\n" + ", ".join(v for v in (r, o) if v))
+    sys.exit(1)
