@@ -47,7 +47,7 @@ def fmt(code: str, errors: DepsT) -> str:
     )
 
 
-if __name__ == "__main__":
+def main() -> None:
     scanner = Scanner()
     paths = scanner.find_files("requirements")
     deps = scanner.extract_dependencies(paths)
@@ -75,3 +75,7 @@ if __name__ == "__main__":
     o = f"\33[1m\33[33m{len(errors[1]):,} optional update(s)\33[0m" if errors[1] else ""
     print("\n" + ", ".join(v for v in (r, o) if v))
     sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

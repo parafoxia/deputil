@@ -75,9 +75,9 @@ setuptools.setup(
     author_email=attrs["email"],
     license=attrs["license"],
     classifiers=[
-        "Development Status :: 1 - Planning",
+        # "Development Status :: 1 - Planning",
         # "Development Status :: 2 - Pre-Alpha",
-        # "Development Status :: 3 - Alpha",
+        "Development Status :: 3 - Alpha",
         # "Development Status :: 4 - Beta",
         # "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
@@ -105,13 +105,14 @@ setuptools.setup(
         "Typing :: Typed",
     ],
     project_urls={
-        "Documentation": attrs["docs"],
+        # "Documentation": attrs["docs"],
         "Source": attrs["url"],
         "Bug Tracker": attrs["bugtracker"],
         "CI": attrs["ci"],
         "Changelog": attrs["changelog"],
     },
     install_requires=parse_requirements("./requirements/base.txt"),
+    entry_points={"console_scripts": ["deputil = deputil.__main__:main"]},
     python_requires=">=3.7.0,<3.12",
     packages=setuptools.find_packages(),
 )
