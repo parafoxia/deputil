@@ -48,8 +48,12 @@ def fmt(code: str, errors: DepsT) -> str:
 
 
 def main() -> None:
+    if len(sys.argv) == 1:
+        print("\33[1m\33[31mNo paths provided.\33[0m")
+        sys.exit(2)
+
     scanner = Scanner()
-    paths = scanner.find_files("requirements")
+    paths = scanner.find_files(*sys.argv[1:])
     deps = scanner.extract_dependencies(paths)
     print(
         f"\33[1m\33[34mChecking {len(deps):,} dependencies "
