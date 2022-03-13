@@ -22,8 +22,8 @@ You may need to prefix these commands with a call to the Python interpreter depe
 
 To run *DepUtil*, you can use either of the following commands:
 ```sh
-deputil
-python -m deputil
+deputil <glob expressions>
+python -m deputil <glob expressions>
 ```
 
 ## Contributing
