@@ -28,6 +28,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 import typing as t
 
@@ -38,11 +39,12 @@ if t.TYPE_CHECKING:
     from deputil.types import DepsT
 
 
-def fmt(code: str, errors: DepsT) -> str:
+def fmt(code: str, errors: DepsT, cplen: int) -> str:
     return "\n".join(
         f"  * {e.name}: "
         f"\33[1m\33[{code}m{e.bounds}\33[0m "
-        f"=> \33[1m\33[32m{e.latest}\33[0m"
+        f"=> \33[1m\33[32m{e.latest}\33[0m "
+        f"({str(e.path)[cplen:]})"
         for e in errors
     )
 
@@ -60,6 +62,11 @@ def main() -> None:
         f"(from {len(paths):,} files)...\33[0m"
     )
 
+    if len(paths) > 1:
+        cplen = len(os.path.commonpath(paths)) + 1
+    else:
+        cplen = len(f"{paths[0]}") - len(paths[0].parts[-1])
+
     checker = Checker()
     errors = checker.find_errors(deps)
 
@@ -69,11 +76,11 @@ def main() -> None:
 
     if errors[0]:
         print("\n\33[1m\33[31mRequired:\33[0m")
-        print(fmt("31", errors[0]))
+        print(fmt("31", errors[0], cplen))
 
     if errors[1]:
         print("\n\33[1m\33[33mOptional:\33[0m")
-        print(fmt("33", errors[1]))
+        print(fmt("33", errors[1], cplen))
 
     r = f"\33[1m\33[31m{len(errors[0]):,} required update(s)\33[0m" if errors[0] else ""
     o = f"\33[1m\33[33m{len(errors[1]):,} optional update(s)\33[0m" if errors[1] else ""

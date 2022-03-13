@@ -64,7 +64,7 @@ class Scanner:
                 if ";" not in line:
                     line += ";"
 
-                constraints, requirements = line.split(";")
+                constraints = line.split(";")[0]
 
                 # We only need the first one
                 operator = OP_REGEX.search(constraints)

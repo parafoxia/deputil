@@ -28,6 +28,8 @@
 
 from __future__ import annotations
 
+import re
+
 import requests
 from packaging.version import Version
 
@@ -38,6 +40,10 @@ class Versioneer:
     def fetch_latest(
         self, package: str, *, include_prereleases: bool = False
     ) -> Version:
+        if "[" in package:
+            # Remove extras to allow parsing.
+            package = re.sub("\[.*\]", "", package)
+
         if include_prereleases:
             return self.fetch_all(package)[-1]
 
@@ -50,6 +56,10 @@ class Versioneer:
         return Version(data["info"]["version"])
 
     def fetch_all(self, package: str) -> list[Version]:
+        if "[" in package:
+            # Remove extras to allow parsing.
+            package = re.sub("\[.*\]", "", package)
+
         with requests.get(BASE_URL.format(package)) as resp:
             if not resp.ok:
                 resp.raise_for_status()
