@@ -22,8 +22,13 @@ You may need to prefix these commands with a call to the Python interpreter depe
 
 To run *DepUtil*, you can use either of the following commands:
 ```sh
-deputil <glob expressions>
-python -m deputil <glob expressions>
+deputil update <glob expressions>
+python -m deputil update <glob expressions>
+```
+
+You can also fetch the latest version of any package by using the following command:
+```sh
+deputil latest <packages>
 ```
 
 ## Contributing
