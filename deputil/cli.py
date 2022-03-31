@@ -29,7 +29,6 @@
 from __future__ import annotations
 
 import os
-from struct import pack
 import sys
 import typing as t
 
@@ -124,4 +123,7 @@ def latest(packages: tuple[str, ...]) -> None:
             current = "N/A"
             colour = "1"
 
-        print(f"{pkg}: \33[1m\33[{colour}m{latest}\33[0m (installed: \33[1m{current}\33[0m)")
+        print(
+            f"{pkg}: \33[1m\33[{colour}m{latest}\33[0m "
+            f"(installed: \33[1m{current}\33[0m)"
+        )
