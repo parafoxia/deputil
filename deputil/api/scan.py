@@ -47,7 +47,7 @@ OP_REGEX = re.compile(r"([<>~=!]{1,2})")
 
 class Scanner:
     def find_files(self, *exprs: str) -> list[Path]:
-        curdir = Path().resolve()
+        curdir = Path()
         all_files = set(filter(lambda p: p.is_file(), curdir.rglob("*")))
         spec = PathSpec.from_lines("gitwildmatch", exprs)
         return list(spec.match_files(all_files))
