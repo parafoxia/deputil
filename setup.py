@@ -112,7 +112,7 @@ setuptools.setup(
         "Changelog": attrs["changelog"],
     },
     install_requires=parse_requirements("./requirements/base.txt"),
-    entry_points={"console_scripts": ["deputil = deputil.__main__:main"]},
+    entry_points={"console_scripts": ["deputil = deputil.cli:main"]},
     python_requires=">=3.7.0,<3.12",
     packages=setuptools.find_packages(),
 )
