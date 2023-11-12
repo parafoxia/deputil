@@ -96,6 +96,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development",
@@ -113,6 +114,6 @@ setuptools.setup(
     },
     install_requires=parse_requirements("./requirements/base.txt"),
     entry_points={"console_scripts": ["deputil = deputil.cli:main"]},
-    python_requires=">=3.7.0,<3.12",
+    python_requires=">=3.7.0,<3.13",
     packages=setuptools.find_packages(),
 )
