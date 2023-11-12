@@ -29,7 +29,7 @@
 __all__ = ("BASE_URL", "api")
 
 __productname__ = "deputil"
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __description__ = "A lightweight dependency manager for Python."
 __url__ = "https://github.com/parafoxia/deputil"
 __docs__ = "https://deputil.readthedocs.io"
